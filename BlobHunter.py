@@ -18,13 +18,11 @@ STOP_SCAN_FLAG = "stop scan"
 
 def get_credentials():
     try:
-        username = subprocess.check_output("az account show --query user.name", shell=True,
-                                           stderr=subprocess.DEVNULL).decode("utf-8")
+        username = subprocess.check_output("az account show --query user.name", shell=False, stderr=subprocess.DEVNULL).decode("utf-8")
 
     except subprocess.CalledProcessError:
-        subprocess.check_output("az login", shell=True, stderr=subprocess.DEVNULL)
-        username = subprocess.check_output("az account show --query user.name", shell=True,
-                                           stderr=subprocess.DEVNULL).decode("utf-8")
+        subprocess.check_output("az login", shell=False, stderr=subprocess.DEVNULL)
+        username = subprocess.check_output("az account show --query user.name", shell=False, stderr=subprocess.DEVNULL).decode("utf-8")
 
     print("[+] Logged in as user {}".format(username.replace('"', '').replace("\n", '')), flush=True)
     return AzureCliCredential()
